@@ -1,0 +1,16 @@
+{
+  "expo": {
+   "name": "JerryCan",
+   "description": "Manage gas jerrycans at home.",
+ 
+   "version": "1.0.0",
+   "slug": "jerrycan",
+   "sdkVersion": "27.0.0",
+   "ios": {
+     "bundleIdentifier": "guillaumehaben.github.io"
+   },
+   "android": {
+     "package": "guillaumehaben.github.io"
+   }
+  }
+}
