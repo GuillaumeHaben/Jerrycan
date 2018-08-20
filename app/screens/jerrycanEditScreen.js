@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Container } from 'native-base';
-import Jerrycan from '../components/jerrycan';
+import JerrycanEdit from '../components/jerrycanEdit';
 
-export default class JerrycanScreen extends Component {
+export default class JerrycanEditScreen extends Component {
   
   static navigationOptions = {
-    title: 'Jerrycan'
+    title: 'JerrycanEdit'
   }
 
   constructor(props) {
@@ -16,9 +16,8 @@ export default class JerrycanScreen extends Component {
   
       return (
         <Container style={{backgroundColor: "#fff"}}>
-          <Jerrycan 
+          <JerrycanEdit 
             data={this.props.navigation.getParam('data', null)} 
-            handleDeleteJerrycan={this.props.navigation.state.params.handleDeleteJerrycan}
             handleEditJerrycan={this.props.navigation.state.params.handleEditJerrycan}
           />
         </Container>

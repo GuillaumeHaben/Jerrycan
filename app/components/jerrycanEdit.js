@@ -1,0 +1,107 @@
+import React, { Component } from 'react';
+import { Content, Item, Form, Input, Label, Button, Text, Icon, Picker, DatePicker } from 'native-base';
+import { withNavigation } from 'react-navigation';
+import { Switch, StyleSheet } from 'react-native';
+
+class JerrycanEdit extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      location: this.props.data.location,
+      status :  this.props.data.status,
+      capacity: this.props.data.capacity,
+      fillingDate: new Date()
+    };
+    this.changeDate = this.changeDate.bind(this);
+    this.edit = this.props.navigation.state.params.handleEditJerrycan();
+  }
+
+  //Location
+  changeLocation(value) {
+    this.setState({
+      location: value
+    });
+  }
+
+  //FillingDate
+  changeDate(newDate) {
+    this.setState({ fillingDate: newDate });
+  }
+  
+  handleEdit = () => {
+    this.edit(
+      this.props.data._id,
+      this.state.fillingDate,
+      this.state.location,
+      this.state.capacity,
+      this.state.status, () => {this.props.navigation.navigate('List')}
+    );
+  }
+
+  render() {
+    return (
+        <Content>
+          <Form>
+            <Item inlineLabel>
+              <Label>Filling Date</Label>
+              <DatePicker
+                defaultDate={new Date()}
+                locale={"fr"}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                animationType={"fade"}
+                androidMode={"default"}
+                placeHolderText={this.state.fillingDate.toLocaleDateString("fr-FR")}
+                textStyle={{ color: "black" }}
+                placeHolderTextStyle={{ color: "#d3d3d3" }}
+                onDateChange={this.changeDate}
+              />
+            </Item>
+            <Item inlineLabel last>
+              <Label>Capacity</Label>
+              <Input keyboardType={'numeric'} returnKeyType='done' maxLength={2} value={this.state.capacity}
+                onChangeText={(capacity) => this.setState({capacity})}/>
+            </Item>
+              <Item last picker style={styles.item}>
+              <Label>Location</Label>
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="ios-arrow-down-outline" />}
+                placeholder="Choose a location"
+                placeholderStyle={{ color: "#bfc6ea" }}
+                placeholderIconColor="#007aff"
+                selectedValue={this.state.location}
+                onValueChange={this.changeLocation.bind(this)}
+              >
+                <Picker.Item label="Sous-sol" value="Sous-sol" />
+                <Picker.Item label="Salle non-fumeur" value="Salle non-fumeur" />
+              </Picker>
+            </Item>
+            <Item inlineLabel last style={styles.item}>
+              <Label>Full</Label>
+              <Switch
+                onValueChange={() => this.setState({status: !this.state.status})}
+                style={{marginBottom: 7, marginTop: 7, marginRight: 20}}
+                value={this.state.status}
+              />
+            </Item>
+          </Form>
+          <Button iconLeft full success style={{marginTop: 10}} onPress={this.handleEdit}>
+            <Icon name="check" type="FontAwesome"/>
+            <Text>Save</Text>
+          </Button>
+        </Content>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  item: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
+});
+
+export default withNavigation(JerrycanEdit);
