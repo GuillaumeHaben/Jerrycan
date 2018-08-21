@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Fab, Icon, Button } from 'native-base';
 import JerrycanList from '../components/jerrycanList';
-
-const jerrycans = [];
+import { AsyncStorage } from "react-native"
 
 export default class ListScreen extends Component {
   
@@ -13,8 +12,17 @@ export default class ListScreen extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        jerrycans
+        jerrycans: []
       }
+    }
+
+    componentDidMount = () => {
+      AsyncStorage.getItem('jerrycans').then((jerrycans) => {jerrycans == null ? this.setState({jerrycans: []}) : this.setState({ jerrycans: JSON.parse(jerrycans) })})
+    }
+
+    setDBJerrycans = (jerrycans) => {
+      AsyncStorage.setItem('jerrycans', JSON.stringify(jerrycans));
+      this.setState({ jerrycans });
     }
   
     handleAddJerrycan() {
@@ -26,14 +34,14 @@ export default class ListScreen extends Component {
           capacity: '',
           status: false
       });
-      this.setState({jerrycans: jerrycans});
+      this.setDBJerrycans(jerrycans);
     }
 
     handleDeleteJerrycan = (id) => {    
       const remainder = this.state.jerrycans.filter((jerrycan) => {
         if(jerrycan._id !== id) return jerrycan;
       });
-      this.setState({jerrycans: remainder});
+      this.setDBJerrycans(remainder);
     }
 
     handleEditJerrycan = (id, fillingDate, location, capacity, status, callback) => {
@@ -43,8 +51,8 @@ export default class ListScreen extends Component {
       jerrycans[index].location = location;
       jerrycans[index].capacity = capacity;
       jerrycans[index].status = status;
-      console.log(jerrycans);
-      this.setState({jerrycans}, () => {callback()});
+      this.setDBJerrycans(jerrycans)
+      callback();
     }
 
     render() {
