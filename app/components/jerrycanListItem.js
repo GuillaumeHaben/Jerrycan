@@ -25,7 +25,7 @@ class JerrycanListItem extends Component {
                   />}
         </Left>
         <Body style={{minHeight: 70}}>
-          <Text>Jerrycan n°{this.props.data._id}</Text>
+          {this.props.data.number ? <Text>Jerrycan n°{this.props.data.number}</Text> : <Text>New jerrycan</Text>}
           {this.props.data.location ? <Text note>Location: {this.props.data.location}</Text> : <Text></Text>}
         </Body>
         {this.props.data.fillingDate instanceof Date && !isNaN(this.props.data.fillingDate.valueOf()) ? 

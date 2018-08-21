@@ -28,7 +28,8 @@ export default class ListScreen extends Component {
     handleAddJerrycan() {
       var jerrycans = this.state.jerrycans;
       jerrycans.push({
-          _id: Math.random().toString(16).substr(2, 4).toUpperCase(),
+          _id: Math.random().toString(36).substr(2, 9).toUpperCase(),
+          number: '',
           fillingDate: '',
           location: '',
           capacity: '',
@@ -44,9 +45,10 @@ export default class ListScreen extends Component {
       this.setDBJerrycans(remainder);
     }
 
-    handleEditJerrycan = (id, fillingDate, location, capacity, status, callback) => {
+    handleEditJerrycan = (id, number, fillingDate, location, capacity, status, callback) => {
       let jerrycans = [...this.state.jerrycans];
       const index = jerrycans.findIndex((jerrycan) => jerrycan._id == id);
+      jerrycans[index].number = number;
       jerrycans[index].fillingDate = fillingDate;
       jerrycans[index].location = location;
       jerrycans[index].capacity = capacity;

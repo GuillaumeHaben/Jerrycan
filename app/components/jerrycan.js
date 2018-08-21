@@ -38,7 +38,7 @@ class Jerrycan extends Component {
                   /> : <Thumbnail square source={{uri: 'https://lh3.googleusercontent.com/qxQa3QUF5IwhWajk1wALrzLm7GmKCA1q1ZbMa8R-1e7H-LdyU16iC3GYIVsMCYk3Gv2OXtORcxZs0POeOYiaasULAq87yChKIB_ZZgri0vNkP_YqGm7NBtZ2sfbRAfEzbFLXRZ6bxbhMHkn4vKkL_I_zCZLZXKv2daAaZmt7evuznNThzZ3xRp0k1MBcqGvjPNjUuv22zLs44GW_9hu1m7VyIivPRlhmWT0FR8VYoWfZSuZZXcbH9pDJKiZjUnE26iRKQ0QsZ84uuaB7QTmIZE0yhZr53kx4YO5eEHcU3Entqe2wU0x-b98a21_FPo-OWgVGMnrmBztVTaDqxvYShB2DTVOnnYhJrkxdI6v5x4YADyuTkG34Z0Xuqds77nJT3HutLLt7u7as25WZ260JyD8MTzTymb2AZG2UYM0uNXiB8Jnobyau1yD3CkpshZDtjOQ5d0LacqWNIWnYjRFEHZfeyPYYzSqn-J7xz0QWw7xoh14JeRteGJuPi775XV59zy25Ggt0p9tY0d16xPaEm2mnR9DGPW2El5iivNF67S-N331yrx2-iqIuyYM-Z0Hq=w2876-h1406'}} 
                   />}
                 <Body>
-                  <Text>Jerrycan n°{this.props.data._id}</Text>
+                {this.props.data.number ? <Text>Jerrycan n°{this.props.data.number}</Text> : <Text>New jerrycan</Text>}
                   {this.props.data.fillingDate instanceof Date && !isNaN(this.props.data.fillingDate.valueOf()) ? <Text note>Last filled on: {this.props.data.fillingDate.toLocaleDateString("fr-FR")}</Text> : <Text></Text>}
                 </Body>
               </Left>

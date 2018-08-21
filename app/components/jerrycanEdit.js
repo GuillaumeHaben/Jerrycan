@@ -8,10 +8,11 @@ class JerrycanEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      number: this.props.data.number,
+      fillingDate: this.props.data.fillingDate,
       location: this.props.data.location,
-      status :  this.props.data.status,
       capacity: this.props.data.capacity,
-      fillingDate: new Date()
+      status :  this.props.data.status
     };
     this.changeDate = this.changeDate.bind(this);
     this.edit = this.props.navigation.state.params.handleEditJerrycan();
@@ -32,6 +33,7 @@ class JerrycanEdit extends Component {
   handleEdit = () => {
     this.edit(
       this.props.data._id,
+      this.state.number,
       this.state.fillingDate,
       this.state.location,
       this.state.capacity,
@@ -40,19 +42,24 @@ class JerrycanEdit extends Component {
   }
 
   render() {
+    console.log(this.state.fillingDate);
     return (
         <Content>
           <Form>
+            <Item inlineLabel last>
+              <Label>Number</Label>
+              <Input keyboardType={'numeric'} returnKeyType='done' maxLength={4} value={this.state.number}
+                onChangeText={(number) => this.setState({number})}/>
+            </Item>
             <Item inlineLabel>
               <Label>Filling Date</Label>
               <DatePicker
-                defaultDate={new Date()}
                 locale={"fr"}
                 timeZoneOffsetInMinutes={undefined}
                 modalTransparent={false}
                 animationType={"fade"}
                 androidMode={"default"}
-                placeHolderText={this.state.fillingDate.toLocaleDateString("fr-FR")}
+                placeHolderText={this.state.fillingDate instanceof Date && !isNaN(this.state.fillingDate.valueOf()) ? this.state.fillingDate.toLocaleDateString("fr-FR") : ""}
                 textStyle={{ color: "black" }}
                 placeHolderTextStyle={{ color: "#d3d3d3" }}
                 onDateChange={this.changeDate}
@@ -63,7 +70,7 @@ class JerrycanEdit extends Component {
               <Input keyboardType={'numeric'} returnKeyType='done' maxLength={2} value={this.state.capacity}
                 onChangeText={(capacity) => this.setState({capacity})}/>
             </Item>
-              <Item last picker style={styles.item}>
+            <Item last picker style={styles.item}>
               <Label>Location</Label>
               <Picker
                 mode="dropdown"
