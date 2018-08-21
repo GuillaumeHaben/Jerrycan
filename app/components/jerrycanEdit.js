@@ -41,8 +41,18 @@ class JerrycanEdit extends Component {
     );
   }
 
+  handleChangeStatus = () => {
+    if (this.state.status == true) {
+      this.setState({fillingDate: ''});
+    } else {
+      this.setState({fillingDate: new Date()});
+    }
+    this.setState({status: !this.state.status});
+  }
+
   render() {
     console.log(this.state.fillingDate);
+    
     return (
         <Content>
           <Form>
@@ -50,20 +60,6 @@ class JerrycanEdit extends Component {
               <Label>Number</Label>
               <Input keyboardType={'numeric'} returnKeyType='done' maxLength={4} value={this.state.number}
                 onChangeText={(number) => this.setState({number})}/>
-            </Item>
-            <Item inlineLabel>
-              <Label>Filling Date</Label>
-              <DatePicker
-                locale={"fr"}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"default"}
-                placeHolderText={this.state.fillingDate instanceof Date && !isNaN(this.state.fillingDate.valueOf()) ? this.state.fillingDate.toLocaleDateString("fr-FR") : ""}
-                textStyle={{ color: "black" }}
-                placeHolderTextStyle={{ color: "#d3d3d3" }}
-                onDateChange={this.changeDate}
-              />
             </Item>
             <Item inlineLabel last>
               <Label>Capacity</Label>
@@ -88,11 +84,25 @@ class JerrycanEdit extends Component {
             <Item inlineLabel last style={styles.item}>
               <Label>Full</Label>
               <Switch
-                onValueChange={() => this.setState({status: !this.state.status})}
+                onValueChange={() => this.handleChangeStatus()}
                 style={{marginBottom: 7, marginTop: 7, marginRight: 20}}
                 value={this.state.status}
               />
             </Item>
+            {!!this.state.status &&
+            <Item inlineLabel>
+              <Label>Filling Date</Label>
+              <DatePicker
+                locale={"fr"}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                animationType={"fade"}
+                androidMode={"default"}
+                placeHolderText={!!this.state.fillingDate != '' && new Date(this.state.fillingDate).toLocaleDateString("fr-FR")}
+                textStyle={{ color: "black" }}
+                onDateChange={this.changeDate}
+              />
+            </Item>}
           </Form>
           <Button iconLeft full success style={{marginTop: 10}} onPress={this.handleEdit}>
             <Icon name="check" type="FontAwesome"/>

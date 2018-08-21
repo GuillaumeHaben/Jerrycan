@@ -39,18 +39,18 @@ class Jerrycan extends Component {
                   />}
                 <Body>
                 {this.props.data.number ? <Text>Jerrycan n°{this.props.data.number}</Text> : <Text>New jerrycan</Text>}
-                  {this.props.data.fillingDate instanceof Date && !isNaN(this.props.data.fillingDate.valueOf()) ? <Text note>Last filled on: {this.props.data.fillingDate.toLocaleDateString("fr-FR")}</Text> : <Text></Text>}
+                {!!this.props.data.fillingDate != '' &&  <Text note>Last filled on: {new Date(this.props.data.fillingDate).toLocaleDateString("fr-FR")}</Text>}
                 </Body>
               </Left>
             </CardItem>
             <CardItem>
               <Body>
-              {this.props.data.location ? <Text>
+              {!!this.props.data.location && <Text>
                   Location: {this.props.data.location}
-                </Text> : <Text></Text>}
-              {this.props.data.capacity ? <Text>
+                </Text>}
+              {!!this.props.data.capacity && <Text>
                   Capacity: {this.props.data.capacity}L
-                </Text>: <Text></Text>}
+                </Text>}
               </Body>
             </CardItem>
             <CardItem>

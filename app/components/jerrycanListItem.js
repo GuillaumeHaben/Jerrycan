@@ -26,13 +26,13 @@ class JerrycanListItem extends Component {
         </Left>
         <Body style={{minHeight: 70}}>
           {this.props.data.number ? <Text>Jerrycan n°{this.props.data.number}</Text> : <Text>New jerrycan</Text>}
-          {this.props.data.location ? <Text note>Location: {this.props.data.location}</Text> : <Text></Text>}
+          {!!this.props.data.location && <Text note>Location: {this.props.data.location}</Text>}
         </Body>
-        {this.props.data.fillingDate instanceof Date && !isNaN(this.props.data.fillingDate.valueOf()) ? 
+        {!!this.props.data.fillingDate != '' && 
         <Right>
           <Text note>Last filled on:</Text>
-          <Text note> {this.props.data.fillingDate.toLocaleDateString("fr-FR")}</Text>
-        </Right> : <Text></Text>}
+          <Text note> {new Date(this.props.data.fillingDate).toLocaleDateString("fr-FR")}</Text>
+        </Right>}
       </ListItem>
 
     );

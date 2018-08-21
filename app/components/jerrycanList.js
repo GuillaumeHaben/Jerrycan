@@ -10,11 +10,16 @@ export default class JerrycanList extends Component {
   }
 
   render() {
+
+    const jerrycansSorted = this.props.data.sort ( function (jerrycan1, jerrycan2){
+      return new Date(jerrycan1.fillingDate) - new Date(jerrycan2.fillingDate);
+    });
+
     return (
         <Content>
           <List>
             {
-            this.props.data.map((jerrycan) => {
+            jerrycansSorted.map((jerrycan) => {
               return <JerrycanListItem 
                 key={jerrycan._id} 
                 data={jerrycan} 

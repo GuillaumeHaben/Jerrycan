@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Fab, Icon, Button } from 'native-base';
 import JerrycanList from '../components/jerrycanList';
-import { AsyncStorage } from "react-native"
+import { AsyncStorage, Alert } from "react-native"
 
 export default class ListScreen extends Component {
   
@@ -12,7 +12,8 @@ export default class ListScreen extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        jerrycans: []
+        jerrycans: [],
+        fab: false
       }
     }
 
@@ -45,6 +46,10 @@ export default class ListScreen extends Component {
       this.setDBJerrycans(remainder);
     }
 
+    handleDeleteAll = () => {
+      this.setDBJerrycans([]);
+    }
+
     handleEditJerrycan = (id, number, fillingDate, location, capacity, status, callback) => {
       let jerrycans = [...this.state.jerrycans];
       const index = jerrycans.findIndex((jerrycan) => jerrycan._id == id);
@@ -57,6 +62,18 @@ export default class ListScreen extends Component {
       callback();
     }
 
+    _showAlert = () => {
+      Alert.alert(
+        'Warning',
+        'Are you sure to delete ALL the jerrycans?',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'OK', onPress: () => this.handleDeleteAll()},
+        ],
+        { cancelable: true }
+      )
+    }
+
     render() {
       return (
         <Container style={{backgroundColor: "#fff"}}>
@@ -66,13 +83,28 @@ export default class ListScreen extends Component {
             handleEditJerrycan={this.handleEditJerrycan}
           />
           <Fab
+            active={this.state.fab}
             direction="up"
             containerStyle={{ }}
-            style={{ backgroundColor: '#c0392b' }}
+            style={{ backgroundColor: '#34495e' }}
             position="bottomRight"
-            onPress={() => this.handleAddJerrycan()}
+            onPress={() => this.setState({ fab: !this.state.fab })}
+          >
+          <Icon name="menu"/>
+
+            <Button 
+              style={{ backgroundColor: '#34A34F' }}
+              onPress={() => this.handleAddJerrycan()}
             >
-            <Icon name="plus" type="Feather"/>
+              <Icon name="plus" type="Feather"/>
+            </Button>
+            {!!this.state.jerrycans.length != 0 && 
+            <Button 
+              style={{ backgroundColor: '#e74c3c' }}
+              onPress={this._showAlert}
+            >
+              <Icon name="x" type="Feather" />
+            </Button>}
           </Fab>
         </Container>
       )
