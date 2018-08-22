@@ -3,7 +3,7 @@
    "name": "JerryCan",
    "description": "Manage gas jerrycans at home.",
    "icon": "./icon.png",
-   "version": "1.0.0",
+   "version": "1.1.0",
    "slug": "jerrycan",
    "sdkVersion": "27.0.0",
    "ios": {

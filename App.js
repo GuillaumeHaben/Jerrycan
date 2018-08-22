@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation'; 
 import ListScreen from './app/screens/listScreen';
 import JerrycanScreen from './app/screens/jerrycanScreen';
-import JerrycanEditScreen from './app/screens/jerrycanEditScreen';
+import SettingsScreen from './app/screens/settingsScreen';
 import Expo from "expo";
 
 const RootStack = createStackNavigator(
   {
     List: ListScreen,
     Jerrycan: JerrycanScreen,
-    JerrycanEdit: JerrycanEditScreen
+    Settings: SettingsScreen
   },
   {
     initialRouteName: 'List'

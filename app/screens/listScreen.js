@@ -1,23 +1,55 @@
 import React, { Component } from 'react';
-import { Container, Fab, Icon, Button } from 'native-base';
+import { Container, Icon, Button } from 'native-base';
 import JerrycanList from '../components/jerrycanList';
-import { AsyncStorage, Alert } from "react-native"
+import { AsyncStorage } from "react-native"
+import { withNavigation } from 'react-navigation';
 
-export default class ListScreen extends Component {
+class ListScreen extends Component {
   
-    static navigationOptions = {
-      title: 'Jerrycan List'
-    }
-
     constructor(props) {
       super(props);
       this.state = {
         jerrycans: [],
-        fab: false
+        settings: []
       }
     }
 
+    static navigationOptions = ({ navigation }) => {
+      const { params = {} } = navigation.state;
+      return {
+      title: 'Jerrycan List',
+      headerRight: (
+      <Button transparent
+        onPress={() => params.handleNavigateSettings()}
+      >
+        <Icon name="settings" type="SimpleLineIcons" />
+      </Button>
+      ),
+      headerLeft: (
+      <Button transparent
+        onPress={() => params.handleAddJerrycan()}
+      >
+        <Icon name="plus" type="Feather"/>
+      </Button>
+      )
+    }}
+
+    navigateSettings = () => {
+      this.props.navigation.navigate(
+        'Settings', 
+        {'data': this.state.settings,
+        'handleDeleteAll': this.handleDeleteAll
+        }
+      )
+    }
+
     componentDidMount = () => {
+      this.props.navigation.setParams({ 
+        handleNavigateSettings: this.navigateSettings, 
+        handleAddJerrycan: this.handleAddJerrycan,
+        handleDeleteJerrycan: this.handleDeleteJerrycan,
+        handleEditJerrycan: this.handleEditJerrycan
+      });
       AsyncStorage.getItem('jerrycans').then((jerrycans) => {jerrycans == null ? this.setState({jerrycans: []}) : this.setState({ jerrycans: JSON.parse(jerrycans) })})
     }
 
@@ -26,17 +58,26 @@ export default class ListScreen extends Component {
       this.setState({ jerrycans });
     }
   
-    handleAddJerrycan() {
-      var jerrycans = this.state.jerrycans;
+    handleAddJerrycan = () => {
+      const jerrycans = this.state.jerrycans;
+      const _id = Math.random().toString(36).substr(2, 9).toUpperCase();
       jerrycans.push({
-          _id: Math.random().toString(36).substr(2, 9).toUpperCase(),
-          number: '',
+          _id: _id,
+          id: '',
           fillingDate: '',
           location: '',
           capacity: '',
           status: false
       });
-      this.setDBJerrycans(jerrycans);
+      
+      this.setDBJerrycans(jerrycans); 
+      this.props.navigation.navigate(
+        'Jerrycan', 
+        {'data': this.state.jerrycans.find((jerrycan) => jerrycan._id == _id), 
+        'handleDeleteJerrycan': this.handleDeleteJerrycan,
+        'handleEditJerrycan': this.handleEditJerrycan
+        }
+      )
     }
 
     handleDeleteJerrycan = (id) => {    
@@ -48,65 +89,34 @@ export default class ListScreen extends Component {
 
     handleDeleteAll = () => {
       this.setDBJerrycans([]);
+      this.props.navigation.navigate('List');
     }
 
-    handleEditJerrycan = (id, number, fillingDate, location, capacity, status, callback) => {
-      let jerrycans = [...this.state.jerrycans];
-      const index = jerrycans.findIndex((jerrycan) => jerrycan._id == id);
-      jerrycans[index].number = number;
-      jerrycans[index].fillingDate = fillingDate;
-      jerrycans[index].location = location;
-      jerrycans[index].capacity = capacity;
-      jerrycans[index].status = status;
-      this.setDBJerrycans(jerrycans)
-      callback();
-    }
-
-    _showAlert = () => {
-      Alert.alert(
-        'Warning',
-        'Are you sure to delete ALL the jerrycans?',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {text: 'OK', onPress: () => this.handleDeleteAll()},
-        ],
-        { cancelable: true }
-      )
+    handleEditJerrycan = (_id, id, fillingDate, location, capacity, status, callback) => {      
+      if (!!_id) {
+        let jerrycans = [...this.state.jerrycans];
+        const index = jerrycans.findIndex((jerrycan) => jerrycan._id == _id);
+        jerrycans[index].id = id;
+        jerrycans[index].fillingDate = fillingDate;
+        jerrycans[index].location = location;
+        jerrycans[index].capacity = capacity;
+        jerrycans[index].status = status;
+        this.setDBJerrycans(jerrycans)
+        callback();
+      }    
     }
 
     render() {
       return (
-        <Container style={{backgroundColor: "#fff"}}>
+        <Container style={{backgroundColor: "#ecebf2"}}>
           <JerrycanList 
             data={this.state.jerrycans} 
             handleDeleteJerrycan={this.handleDeleteJerrycan}
             handleEditJerrycan={this.handleEditJerrycan}
           />
-          <Fab
-            active={this.state.fab}
-            direction="up"
-            containerStyle={{ }}
-            style={{ backgroundColor: '#34495e' }}
-            position="bottomRight"
-            onPress={() => this.setState({ fab: !this.state.fab })}
-          >
-          <Icon name="menu"/>
-
-            <Button 
-              style={{ backgroundColor: '#34A34F' }}
-              onPress={() => this.handleAddJerrycan()}
-            >
-              <Icon name="plus" type="Feather"/>
-            </Button>
-            {!!this.state.jerrycans.length != 0 && 
-            <Button 
-              style={{ backgroundColor: '#e74c3c' }}
-              onPress={this._showAlert}
-            >
-              <Icon name="x" type="Feather" />
-            </Button>}
-          </Fab>
         </Container>
       )
     }
   }
+
+  export default withNavigation(ListScreen);

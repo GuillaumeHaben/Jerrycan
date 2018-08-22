@@ -17,7 +17,7 @@ export default class JerrycanList extends Component {
 
     return (
         <Content>
-          <List>
+          <List style={{backgroundColor: "#fff"}}>
             {
             jerrycansSorted.map((jerrycan) => {
               return <JerrycanListItem 
