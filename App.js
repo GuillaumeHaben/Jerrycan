@@ -3,13 +3,15 @@ import { createStackNavigator } from 'react-navigation';
 import ListScreen from './app/screens/listScreen';
 import JerrycanScreen from './app/screens/jerrycanScreen';
 import SettingsScreen from './app/screens/settingsScreen';
+import InfoScreen from './app/screens/infoScreen';
 import Expo from "expo";
 
 const RootStack = createStackNavigator(
   {
     List: ListScreen,
     Jerrycan: JerrycanScreen,
-    Settings: SettingsScreen
+    Settings: SettingsScreen,
+    Info: InfoScreen
   },
   {
     initialRouteName: 'List'

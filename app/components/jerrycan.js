@@ -12,6 +12,7 @@ class Jerrycan extends Component {
       id: this.props.data.id,
       fillingDate: this.props.data.fillingDate,
       location: this.props.data.location,
+      gasType: this.props.data.gasType,
       capacity: this.props.data.capacity,
       status :  this.props.data.status
     };
@@ -44,6 +45,13 @@ class Jerrycan extends Component {
     });
   }
 
+  //Gas Type
+  changeGasType(value) {
+    this.setState({
+      gasType: value
+    });
+  }
+
   //FillingDate
   changeDate(newDate) {
     this.setState({ fillingDate: newDate });
@@ -55,6 +63,7 @@ class Jerrycan extends Component {
       this.state.id,
       this.state.fillingDate,
       this.state.location,
+      this.state.gasType,
       this.state.capacity,
       this.state.status, () => {this.props.navigation.navigate('List')}
     );
@@ -100,8 +109,26 @@ class Jerrycan extends Component {
                 selectedValue={this.state.location}
                 onValueChange={this.changeLocation.bind(this)}
               >
-                <Picker.Item label="Sous-sol" value="Sous-sol" />
-                <Picker.Item label="Salle non-fumeur" value="Salle non-fumeur" />
+                <Picker.Item label="800 | Sous-sol " value="800 | Sous-sol" />
+                <Picker.Item label="800 | Salle non-fumeur" value="800 | Salle non-fumeur" />
+                <Picker.Item label="800 | Gare" value="800 | Gare" />
+                <Picker.Item label="24 | Garage" value="24 | Garage" />
+                <Picker.Item label="24 | Cave" value="24 | Cave" />
+              </Picker>
+            </Item>
+            <Item last picker style={styles.item}>
+              <Label>Gas type</Label>
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="ios-arrow-down-outline" />}
+                placeholder="Choose a gas type"
+                placeholderStyle={{ color: "#bfc6ea" }}
+                placeholderIconColor="#007aff"
+                selectedValue={this.state.gasType}
+                onValueChange={this.changeGasType.bind(this)}
+              >
+                <Picker.Item label="Super 98" value="Super 98" />
+                <Picker.Item label="Mélange 2 temps" value="Mélange 2 temps" />
               </Picker>
             </Item>
             <Item inlineLabel last style={styles.item}>

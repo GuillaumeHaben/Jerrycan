@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Container } from 'native-base';
-import SettingsEdit from '../components/settingsEdit';
+import Info from '../components/info';
 
-export default class SettingsScreen extends Component {
+export default class InfoScreen extends Component {
   
   static navigationOptions = {
-    title: 'Settings'
+    title: 'Info'
   }
 
   constructor(props) {
@@ -13,9 +13,10 @@ export default class SettingsScreen extends Component {
   }
   
     render() {
+  
       return (
         <Container style={{backgroundColor: "#ecebf2"}}>
-          <SettingsEdit 
+          <Info 
             data={this.props.navigation.getParam('data', null)}
           />
         </Container>

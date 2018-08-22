@@ -37,7 +37,7 @@ class ListScreen extends Component {
     navigateSettings = () => {
       this.props.navigation.navigate(
         'Settings', 
-        {'data': this.state.settings,
+        {'data': this.state,
         'handleDeleteAll': this.handleDeleteAll
         }
       )
@@ -66,6 +66,7 @@ class ListScreen extends Component {
           id: '',
           fillingDate: '',
           location: '',
+          gasType: '',
           capacity: '',
           status: false
       });
@@ -92,13 +93,14 @@ class ListScreen extends Component {
       this.props.navigation.navigate('List');
     }
 
-    handleEditJerrycan = (_id, id, fillingDate, location, capacity, status, callback) => {      
+    handleEditJerrycan = (_id, id, fillingDate, location, gasType, capacity, status, callback) => {      
       if (!!_id) {
         let jerrycans = [...this.state.jerrycans];
         const index = jerrycans.findIndex((jerrycan) => jerrycan._id == _id);
         jerrycans[index].id = id;
         jerrycans[index].fillingDate = fillingDate;
         jerrycans[index].location = location;
+        jerrycans[index].gasType = gasType;
         jerrycans[index].capacity = capacity;
         jerrycans[index].status = status;
         this.setDBJerrycans(jerrycans)
