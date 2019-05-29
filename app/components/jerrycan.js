@@ -78,7 +78,7 @@ class Jerrycan extends Component {
     this.setState({status: !this.state.status});
   }
 
-  render() {
+  render() {    
     return (
         <Content>
           <Body style={{ marginTop: 20, marginBottom: 20 }}>
@@ -109,11 +109,11 @@ class Jerrycan extends Component {
                 selectedValue={this.state.location}
                 onValueChange={this.changeLocation.bind(this)}
               >
-                <Picker.Item label="800 | Sous-sol " value="800 | Sous-sol" />
-                <Picker.Item label="800 | Salle non-fumeur" value="800 | Salle non-fumeur" />
-                <Picker.Item label="800 | Gare" value="800 | Gare" />
-                <Picker.Item label="24 | Garage" value="24 | Garage" />
-                <Picker.Item label="24 | Cave" value="24 | Cave" />
+                {
+                this.props.settings.locations.map((loc) => {
+                  return <Picker.Item key={loc._id} label={loc.name} value={loc.name} />
+                })
+                }
               </Picker>
             </Item>
             <Item last picker style={styles.item}>

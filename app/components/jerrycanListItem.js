@@ -10,11 +10,13 @@ class JerrycanListItem extends Component {
   }
 
   render() {
+    
     return (
       <ListItem avatar 
         onPress={() => this.props.navigation.navigate(
           'Jerrycan', 
-          {'data': this.props.data, 
+          {'data': this.props.data,
+          'settings': this.props.settings,
           'handleDeleteJerrycan': this.props.handleDeleteJerrycan,
           'handleEditJerrycan': this.props.handleEditJerrycan}
         )}

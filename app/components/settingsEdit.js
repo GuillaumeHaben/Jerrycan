@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Body, Text, Content, ListItem, Left, Right, Button, Icon } from 'native-base';
+import { Body, Text, Content, ListItem, Left, Right, Button, Icon, Label, Picker } from 'native-base';
 import { withNavigation } from 'react-navigation';
 import { Alert } from 'react-native';
 
@@ -8,6 +8,7 @@ class SettingsEdit extends Component {
   constructor(props) {
     super(props);
     this.delAll = this.props.navigation.state.params.handleDeleteAll;
+    this.handleEditLocations = this.props.navigation.state.params.handleEditLocations;
   }
 
   _showAlert = () => {
@@ -47,14 +48,20 @@ class SettingsEdit extends Component {
             <Icon active name="arrow-forward" />
           </Right>
         </ListItem>
-        <ListItem style={{ backgroundColor: "#fff"}} last icon>
+        <ListItem style={{ backgroundColor: "#fff"}} last icon
+          onPress={() => this.props.navigation.navigate(
+            'Customize', 
+            {'data': this.props.data,
+            'handleEditLocations': this.handleEditLocations}
+          )}
+        >
           <Left>
             <Button warning>
               <Icon name="mode-edit" type="MaterialIcons"/>
             </Button>
           </Left>
           <Body>
-            <Text>Edit options</Text>
+            <Text>Customize</Text>
           </Body>
           <Right>
             <Icon active name="arrow-forward" />

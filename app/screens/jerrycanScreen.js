@@ -13,10 +13,12 @@ export default class JerrycanScreen extends Component {
   }
   
     render() {
+      console.log("rendered");
       return (
         <Container style={{backgroundColor: "#ecebf2"}}>
           <Jerrycan
             data={this.props.navigation.getParam('data', null)}
+            settings={this.props.navigation.getParam('settings', null)}
             handleDeleteJerrycan={this.props.navigation.getParam('handleDeleteJerrycan', null)}
             handleEditJerrycan={this.props.navigation.getParam('handleEditJerrycan', null)}
           />

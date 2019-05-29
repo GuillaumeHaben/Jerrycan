@@ -10,7 +10,10 @@ class ListScreen extends Component {
       super(props);
       this.state = {
         jerrycans: [],
-        settings: []
+        settings: {
+          locations: [],
+          gasTypes: []
+        }
       }
     }
 
@@ -38,7 +41,8 @@ class ListScreen extends Component {
       this.props.navigation.navigate(
         'Settings', 
         {'data': this.state,
-        'handleDeleteAll': this.handleDeleteAll
+        'handleDeleteAll': this.handleDeleteAll,
+        'handleEditLocations': this.handleEditLocations
         }
       )
     }
@@ -103,16 +107,27 @@ class ListScreen extends Component {
         jerrycans[index].gasType = gasType;
         jerrycans[index].capacity = capacity;
         jerrycans[index].status = status;
-        this.setDBJerrycans(jerrycans)
+        this.setDBJerrycans(jerrycans);
         callback();
       }    
     }
 
+    handleEditLocations = (newLocations) => {
+      const locations = this.state.settings.locations;
+      
+      this.setState({settings: {
+        ...this.state.settings,
+        locations: locations
+      }});
+
+    }
+
     render() {
+      
       return (
         <Container style={{backgroundColor: "#ecebf2"}}>
           <JerrycanList 
-            data={this.state.jerrycans} 
+            data={this.state} 
             handleDeleteJerrycan={this.handleDeleteJerrycan}
             handleEditJerrycan={this.handleEditJerrycan}
           />

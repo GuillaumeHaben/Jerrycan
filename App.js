@@ -4,6 +4,9 @@ import ListScreen from './app/screens/listScreen';
 import JerrycanScreen from './app/screens/jerrycanScreen';
 import SettingsScreen from './app/screens/settingsScreen';
 import InfoScreen from './app/screens/infoScreen';
+import CustomizeScreen from './app/screens/customizeScreen';
+import LocationEditScreen from './app/screens/locationEditScreen';
+import GasEditScreen from './app/screens/gasEditScreen';
 import Expo from "expo";
 
 const RootStack = createStackNavigator(
@@ -11,7 +14,10 @@ const RootStack = createStackNavigator(
     List: ListScreen,
     Jerrycan: JerrycanScreen,
     Settings: SettingsScreen,
-    Info: InfoScreen
+    Info: InfoScreen,
+    Customize: CustomizeScreen,
+    GasEdit: GasEditScreen,
+    LocationEdit: LocationEditScreen
   },
   {
     initialRouteName: 'List'

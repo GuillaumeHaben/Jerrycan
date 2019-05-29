@@ -11,13 +11,12 @@ export default class JerrycanList extends Component {
 
   render() {
 
-    const jerrycansSortedByDate = this.props.data.sort ( function (jerrycan1, jerrycan2){
+    const jerrycansSortedByDate = this.props.data.jerrycans.sort ( function (jerrycan1, jerrycan2){
       if (!jerrycan1.status) return 1;
       if (!jerrycan2.status) return -1;
       return new Date(jerrycan1.fillingDate) < new Date(jerrycan2.fillingDate) ? -1 : 1;
     });
     const jerrycansSorted = jerrycansSortedByDate;
-
     return (
         <Content>
           <List style={{backgroundColor: "#fff"}}>
@@ -25,7 +24,8 @@ export default class JerrycanList extends Component {
             jerrycansSorted.map((jerrycan) => {
               return <JerrycanListItem 
                 key={jerrycan._id} 
-                data={jerrycan} 
+                data={jerrycan}
+                settings={this.props.data.settings}
                 handleDeleteJerrycan={() => this.props.handleDeleteJerrycan}
                 handleEditJerrycan={() => this.props.handleEditJerrycan}
                 />
